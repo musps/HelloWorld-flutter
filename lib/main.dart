@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/EntryPoint/entryPoint.dart';
 import 'screens/Exercice1/exercice1.dart';
 import 'screens/Exercice2/exercice2.dart';
 
@@ -13,10 +14,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/calculator',
+      initialRoute: '/',
       routes: {
-        '/': (context) => Exercice1(title: 'Flutter layout demo'),
-        '/calculator': (context) => Exercice2(title: 'Flutter layout demo'),
+        '/': (context) => EntryPoint(title: 'Exercices'),
+        '/place': (context) => Exercice1(title: 'Exercice 1a'),
+        '/calculator': (context) => Exercice2(title: 'Exercice 1b'),
       },
     );
   }

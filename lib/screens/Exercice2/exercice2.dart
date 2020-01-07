@@ -13,7 +13,26 @@ enum ButtonColor {
   orange
 }
 
+class PadActions {
+  static String clear = 'A/C';
+  static String r2 = 'A/C';
+  static String r3 = 'A/C';
+}
+
 class _Exercice2 extends State<Exercice2> {
+  String screenText = '0';
+
+  void actionClear() {
+    setState(() {
+      screenText = '0';
+    });
+  }
+
+  void actionConcate(String value) {
+    setState(() {
+      screenText += value;
+    });
+  }
 
   Expanded _button(String text, int flex, double padding, [ButtonColor bgColor, Color textColor = Colors.white]) {
     var buttonBg;
@@ -33,64 +52,99 @@ class _Exercice2 extends State<Exercice2> {
     }
 
     var buttonView = FlatButton(
-      onPressed: () => print('On pressed button $text'),
+      onPressed: () => actionConcate(text),
       color: buttonBg,
+      shape: RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(100),
+      ),
       child: Text(
         text,
-        style: TextStyle(color: textColor)
-        ),
+        style: TextStyle(
+          color: textColor,
+          fontSize: 30.0
+        )
+      ),
     );
-    return Expanded(flex: flex, child: Padding(child: buttonView, padding: EdgeInsets.all(padding)));
+
+    return Expanded(
+      flex: flex,
+      child: Container(
+        padding: EdgeInsets.all(padding),
+        height: 100,
+        child: buttonView,
+      )
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    var screen = Expanded(flex: 1, child: Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(left: 25, right: 25),
+      child: Align(
+        alignment: FractionalOffset.bottomRight,
+        child: Text(
+          screenText,
+          style: TextStyle(
+            fontSize: 100,
+            color: Colors.white,
+          )
+        )
+      )
+    ));
+
+    var pad = Expanded(
+      flex: 2, 
+      child: Container(
+        child: Column(
+          children: [
+            Row(children: [
+              _button(PadActions.clear, 1, 8, ButtonColor.grey, Colors.black),
+              _button('+/-', 1, 8, ButtonColor.grey, Colors.black),
+              _button('%', 1, 8, ButtonColor.grey, Colors.black),
+              _button('\u00F7', 1, 8, ButtonColor.orange),
+            ]),
+            Row(children: [
+              _button('7', 1, 8),
+              _button('8', 1, 8),
+              _button('9', 1, 8),
+              _button('x', 1, 8, ButtonColor.orange),
+            ]),
+            Row(children: [
+              _button('4', 1, 8),
+              _button('5', 1, 8),
+              _button('6', 1, 8),
+              _button('-', 1, 8, ButtonColor.orange),
+            ]),
+            Row(children: [
+              _button('1', 1, 8),
+              _button('2', 1, 8),
+              _button('3', 1, 8),
+              _button('=', 1, 8, ButtonColor.orange),
+            ]),
+            Row(children: [
+              _button('0', 2, 8),
+              _button(',', 1, 8),
+              _button('=', 1, 8, ButtonColor.orange),
+            ]),
+            Row(children: [])
+          ]
+        )
+      )
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView(
-        children: [
-          Row(
-            children: [
-              _button('AC', 1, 5, ButtonColor.grey, Colors.black),
-              _button('+/-', 1, 5, ButtonColor.grey, Colors.black),
-              _button('%', 1, 5, ButtonColor.grey, Colors.black),
-              _button('\u00F7', 1, 5, ButtonColor.orange),
-            ],
-          ),
-          Row(
-            children: [
-              _button('7', 1, 5),
-              _button('8', 1, 5),
-              _button('9', 1, 5),
-              _button('x', 1, 5, ButtonColor.orange),
-            ],
-          ),
-          Row(
-            children: [
-              _button('4', 1, 5),
-              _button('5', 1, 5),
-              _button('6', 1, 5),
-              _button('-', 1, 5, ButtonColor.orange),
-            ],
-          ),
-          Row(
-            children: [
-              _button('1', 1, 5),
-              _button('2', 1, 5),
-              _button('3', 1, 5),
-              _button('=', 1, 5, ButtonColor.orange),
-            ],
-          ),
-          Row(
-            children: [
-              _button('0', 2, 5),
-              _button(',', 1, 5),
-              _button('=', 1, 5, ButtonColor.orange),
-            ],
-          ),
-        ]
+      body: Container(
+        color: Colors.black,
+        child: Column(
+          children: [
+            screen,
+            pad,
+          ]
+        )
       )
     );
   }
