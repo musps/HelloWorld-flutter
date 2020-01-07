@@ -10,8 +10,8 @@ class Exercice1 extends StatefulWidget {
 }
 
 class _Exercice1 extends State<Exercice1> {
-  Column _buildButtonColumn(Color color, IconData icon, String label) {
-    return Column(
+  GestureDetector _buildButtonColumn(Color color, IconData icon, String label) {
+    var child = Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -28,6 +28,11 @@ class _Exercice1 extends State<Exercice1> {
           ),
         ),
       ],
+    );
+
+    return GestureDetector(
+      onTap: () => print('on press button'),
+      child: child,
     );
   }
 
